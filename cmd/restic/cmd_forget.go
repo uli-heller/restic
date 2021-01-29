@@ -6,6 +6,7 @@ import (
 	"io"
 
 	"github.com/restic/restic/internal/errors"
+	"github.com/restic/restic/internal/repository"
 	"github.com/restic/restic/internal/restic"
 	"github.com/spf13/cobra"
 )
@@ -122,6 +123,10 @@ func runForget(opts ForgetOptions, gopts GlobalOptions, args []string) error {
 		}
 	}
 
+	return runForgetWithRepo(opts, gopts, args, repo)
+}
+
+func runForgetWithRepo(opts ForgetOptions, gopts GlobalOptions, args []string, repo *repository.Repository) error {
 	ctx, cancel := context.WithCancel(gopts.ctx)
 	defer cancel()
 
@@ -231,7 +236,7 @@ func runForget(opts ForgetOptions, gopts GlobalOptions, args []string) error {
 	}
 
 	if gopts.JSON && len(jsonGroups) > 0 {
-		err = printJSONForget(gopts.stdout, jsonGroups)
+		err := printJSONForget(gopts.stdout, jsonGroups)
 		if err != nil {
 			return err
 		}
