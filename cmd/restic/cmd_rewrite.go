@@ -255,7 +255,7 @@ func runRewrite(opts RewriteOptions, gopts GlobalOptions, args []string) error {
 
 	if !gopts.NoLock && !opts.DryRun {
 		Verbosef("create exclusive lock for repository\n")
-		lock, err := lockRepoExclusive(repo)
+		lock, err := lockRepoExclusive(gopts.ctx, repo)
 		defer unlockRepo(lock)
 		if err != nil {
 			return err
