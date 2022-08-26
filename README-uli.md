@@ -37,6 +37,9 @@ build$ sed -i -e "s/${OLD_VERSION}/${NEW_VERSION}/" debian/patches/series
   # debian/changelog anpassen
 build$ dpkg-buildpackage
   # ... führt leider zu einem Build-Problem
+  #     Also erstmal:
+  #     - quilt pop -a
+  #     - debian/patches/series anpassen -> restic*uli.diff deaktivieren
 ```
 
 Anpassungen
