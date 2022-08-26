@@ -4,6 +4,8 @@ Meine persönlichen Notizen
 Aktualisierung auf 0.14.0
 -------------------------
 
+### Git-Repo aktualisieren
+
 ```
 $ OLD_VERSION=0.13.1
 $ NEW_VERSION=0.14.0
@@ -18,6 +20,23 @@ $ git commit -m "Version uli03" .
 $ git push -u origin "${NEW_VERSION}-uli"
 $ git tag "v${NEW_VERSION}-uli03"
 $ git push --tags
+```
+
+### DEB-Paket
+
+```
+$ git diff "v${NEW_VERSION}..v${NEW_VERSION}-uli03" >restic-${NEW_VERSION}-uli.diff
+  # Source-Paket herunterladen und prüfen: https://github.com/restic/restic/releases/download/v0.14.0/restic-0.14.0.tar.gz
+  # Beide Dateien auf's Build-System übertragen
+build$ cd .../restic/restic-${OLD_VERSION}
+build$ uupdate -u ../restic-${NEW_VERSION}.tar.gz
+build$ cd ../restic-${OLD_VERSION}
+build$ rm debian/patches/restic-${OLD_VERSION}-uli.diff
+build$ cp .../restic-${NEW_VERSION}-uli.diff debian/patches/.
+build$ sed -i -e "s/${OLD_VERSION}/${NEW_VERSION}/" debian/patches/series
+  # debian/changelog anpassen
+build$ dpkg-buildpackage
+  # ... führt leider zu einem Build-Problem
 ```
 
 Anpassungen
